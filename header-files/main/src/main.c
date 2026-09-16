@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "maths_add.h"
+#include <maths_add.h>
 
 int main() {
     int num1, num2, result;
