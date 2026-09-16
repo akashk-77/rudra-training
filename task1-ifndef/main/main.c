@@ -5,28 +5,31 @@ int add(int a, int b) {
     return a + b;
 }
 
-int main() {
-    int flag;
 
-    printf("Hello World\n");
+void run_addition_task(void) {
+    int num1, num2;
+    printf("Input is 0. Running addition task...\n");
+
+    printf("Enter first number: ");
+    scanf("%d", &num1);
+
+    printf("Enter second number: ");
+    scanf("%d", &num2);
+
+    printf("Sum: %d\n", add(num1, num2));
+}
+
+int main() {
+    int input;
 
     printf("Enter a number: ");
-    scanf("%d", &flag);
+    scanf("%d", &input);
 
-    if (flag == 0) {
-        int num1, num2;
-        printf("Input is 0. Running add function...\n");
-
-        printf("Enter first number: ");
-        scanf("%d", &num1);
-
-        printf("Enter second number: ");
-        scanf("%d", &num2);
-
-        int result = add(num1, num2);
-        printf("Sum: %d\n", result);
+   
+    if (input == 0) {
+        run_addition_task();
     } else {
-        printf("Input is not 0. Skipping add function.\n");
+        printf("Input is not 0. Skipping addition task.\n");
     }
 
     return 0;
