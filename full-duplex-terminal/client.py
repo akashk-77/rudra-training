@@ -4,10 +4,10 @@ import threading
 def receive_messages(sock):
     while True:
         try:
-            message = sock.recv(1024).decode('utf-8')
+            message = sock.recv(4096).decode('utf-8')
             if not message:
                 break
-            print(f"\n[Server]: {message}\n[You]: ", end="")
+            print(f"\n{message}\n[You]: ", end="")
         except:
             break
 
@@ -19,6 +19,7 @@ def main():
     try:
         client.connect((host, port))
         print("[+] Connected to server.")
+        print("[*] Tip: Type regular text to chat, or type 'cmd: <command>' to execute terminal commands on the server.")
     except Exception as e:
         print(f"[-] Connection failed: {e}")
         return
