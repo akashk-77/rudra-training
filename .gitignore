@@ -1,0 +1,15 @@
+# Virtual environments
+.venv/
+venv/
+ENV/
+pid/.venv/
+
+# Vim temporary/swap files
+*.swp
+*.swo
+
+# Python cache & generated artifacts
+__pycache__/
+*.pyc
+pid_plot.png
+*.png
